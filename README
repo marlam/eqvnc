@@ -1,0 +1,41 @@
+eqvnc - VNC Viewer for Equalizer
+================================
+
+This is a VNC Viewer on top of the Equalizer framework for distributed OpenGL
+rendering. You can use it to view VNC desktops across multiple displays,
+graphics cards, and/or hosts.
+
+It requires libvncclient <http://libvncserver.sourceforge.net/> and Equalizer
+<http://www.equalizergraphics.com/>.
+
+
+eqvnc accepts three types of options: eqvnc options, Equalizer options, and
+libvncclient options. Specify eqvnc options first, then Equalizer options, and
+then VNC options and arguments. For example:
+
+$ ./eqvnc --view-only --eq-config my-conf.eqc -compress 9 my-vncserver:0
+
+eqvnc options:
+--view-only
+  Disable keyboard and mouse interaction; just view the desktop.
+--screen=canvas
+  Draw the VNC desktop onto the canvas specified in the Equalizer
+  configuration. This is the default and should work in most situations.
+--screen=wall,blx,bly,blz,brx,bry,brz,tlx,tly,tlz
+  Draw the VNC desktop on a 3D wall given by the coordinates of the bottom left,
+  bottom right, and top left corners.
+--screen=cylinder,cx,cy,cz,ux,uy,uz,r,phi0,phirange,thetarange
+  Draw the VNC desktop on a 3D cylindrical screen given by the cylinder
+  center, cylinder up vector, cylinder radius, azimuth angle of screen center
+  (phi0), and the aperture angles for azimuth (phirange) and polar
+  (thetarange) directions.
+--lookat=ex,ey,ez,cx,cy,cz,ux,uy,uz
+  Set the observer position and viewing direction using the given eye and
+  center points and an up vector (similar to gluLookAt). This only makes sens
+  for --screen=wall and --screen=cylinder.
+
+Limitations:
+- Mouse interaction only works with --screen=canvas.
+- Keyboard interaction only works rudimentary because of limitations in the
+  Equalizer key event model. Modifier keys don't work, and non-ascii keys will
+  probably cause trouble.

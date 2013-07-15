@@ -97,9 +97,15 @@ protected:
         os << frame_data_id;
         os << view_only;
         os << static_cast<int>(screen);
+#if EQ_VERSION_GE(1,6,0)
         os << co::Array<float>(wall, 9);
         os << co::Array<float>(cylinder, 10);
         os << co::Array<float>(head_matrix, 16);
+#else
+        os.write(wall, 9 * sizeof(float));
+        os.write(cylinder, 10 * sizeof(float));
+        os.write(head_matrix, 16 * sizeof(float));
+#endif
     }
 
     virtual void applyInstanceData(co::DataIStream& is)
@@ -108,9 +114,15 @@ protected:
         is >> frame_data_id;
         is >> view_only;
         is >> x; screen = static_cast<screen_t>(x);
+#if EQ_VERSION_GE(1,6,0)
         is >> co::Array<float>(wall, 9);
         is >> co::Array<float>(cylinder, 10);
         is >> co::Array<float>(head_matrix, 16);
+#else
+        is.read(wall, 9 * sizeof(float));
+        is.read(cylinder, 10 * sizeof(float));
+        is.read(head_matrix, 16 * sizeof(float));
+#endif
     }
 };
 
@@ -136,7 +148,11 @@ protected:
     virtual void getInstanceData(co::DataOStream& os)
     {
         os << vnc_width << vnc_height;
+#if EQ_VERSION_GE(1,6,0)
         os << co::Array<float>(canvas, 6);
+#else
+        os.write(canvas, 6 * sizeof(float));
+#endif
         size_t n = vnc_dirty_rectangles.size();
         os << n;
         for (size_t i = 0; i < n; i++) {
@@ -158,7 +174,11 @@ protected:
             vnc_framebuffer.resize(w * h);
         vnc_width = w;
         vnc_height = h;
+#if EQ_VERSION_GE(1,6,0)
         is >> co::Array<float>(canvas, 6);
+#else
+        is.read(canvas, 6 * sizeof(float));
+#endif
         size_t n;
         is >> n;
         for (size_t i = 0; i < n; i++) {
@@ -370,7 +390,13 @@ public:
                         frame_data.canvas, frame_data.vnc_width, frame_data.vnc_height,
                         vnc_x, vnc_y, vnc_buttons);
                 SendPointerEvent(vnc_client, vnc_x, vnc_y, vnc_buttons);
-            } else if (event->data.type == eq::Event::CHANNEL_POINTER_WHEEL) {
+            } else if (event->data.type ==
+#if EQ_VERSION_GE(1,6,0)
+                    eq::Event::CHANNEL_POINTER_WHEEL
+#else
+                    eq::Event::WINDOW_POINTER_WHEEL
+#endif
+                    ) {
                 int vnc_x, vnc_y, vnc_buttons;
                 eqptr_to_rfbptr(event->data.pointerWheel, event->data.context.pvp, event->data.context.vp,
                         frame_data.canvas, frame_data.vnc_width, frame_data.vnc_height,

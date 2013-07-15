@@ -11,15 +11,15 @@ cmake_minimum_required(VERSION 2.8)
 set(PACKAGE_NAME "eqvnc")
 set(PACKAGE_VERSION "1.0")
 project(${PACKAGE_NAME} C CXX)
-if(CMAKE_COMPILER_IS_GNUCXX)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_CLANG)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wno-unknown-pragmas")
 endif()
 
 # Find libraries
 find_package(OpenGL REQUIRED)
+find_package(Equalizer REQUIRED)
 find_package(PkgConfig)
 pkg_check_modules(LIBVNCCLIENT REQUIRED libvncclient)
-pkg_check_modules(EQUALIZER REQUIRED Equalizer)
 
 # Main target
 add_executable(eqvnc eqvnc.cpp)

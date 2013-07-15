@@ -33,3 +33,5 @@ add_custom_target(dist
   COMMAND git archive --prefix=${ARCHIVE_NAME}/ HEAD
     | xz > ${CMAKE_BINARY_DIR}/${ARCHIVE_NAME}.tar.xz
   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+
+add_custom_target(test COMMENT "No tests") # fake test target for CI systems

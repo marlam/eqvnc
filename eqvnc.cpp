@@ -581,7 +581,7 @@ protected:
             glTexCoord2f(0.0f, 0.0f);
             glVertex3fv(tl);
             glEnd();
-        } else { // node->init_data.screen == screen_cylinder 
+        } else { // node->init_data.screen == screen_cylinder
             float center[3] = { init_data.cylinder[0], init_data.cylinder[1], init_data.cylinder[2] };
             float up[3] = { init_data.cylinder[3], init_data.cylinder[4], init_data.cylinder[5] };
             float radius = init_data.cylinder[6];
@@ -794,7 +794,7 @@ int main(int argc, char* argv[])
     vnc_client->canHandleNewFBSize = TRUE;
     vnc_client->GotFrameBufferUpdate = vnc_update;
     vnc_client->listenPort = LISTEN_PORT_OFFSET;
-#if HAVE_RFBCLIENT_LISTEN6PORT
+#ifdef HAVE_RFBCLIENT_LISTEN6PORT
     vnc_client->listen6Port = LISTEN_PORT_OFFSET;
 #endif
     if (!rfbInitClient(vnc_client, &argc, argv)) {

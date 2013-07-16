@@ -21,6 +21,11 @@ find_package(Equalizer REQUIRED)
 find_package(PkgConfig)
 pkg_check_modules(LIBVNCCLIENT REQUIRED libvncclient)
 
+# Check IPv6 support in libvncclient
+include(CheckStructHasMember)
+check_struct_has_member("rfbClient" listen6Port rfb/rfbclient.h HAVE_RFBCLIENT_LISTEN6PORT)
+add_definitions(-DHAVE_RFBCLIENT_LISTEN6PORT=${HAVE_RFBCLIENT_LISTEN6PORT})
+
 # Main target
 add_executable(eqvnc eqvnc.cpp)
 include_directories(${CMAKE_SOURCE_DIR} ${LIBVNCCLIENT_INCLUDE_DIRS} ${EQUALIZER_INCLUDE_DIRS})

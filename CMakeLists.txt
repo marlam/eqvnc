@@ -24,7 +24,9 @@ pkg_check_modules(LIBVNCCLIENT REQUIRED libvncclient)
 # Check IPv6 support in libvncclient
 include(CheckStructHasMember)
 check_struct_has_member("rfbClient" listen6Port rfb/rfbclient.h HAVE_RFBCLIENT_LISTEN6PORT)
-add_definitions(-DHAVE_RFBCLIENT_LISTEN6PORT=${HAVE_RFBCLIENT_LISTEN6PORT})
+if(HAVE_RFBCLIENT_LISTEN6PORT)
+  add_definitions(-DHAVE_RFBCLIENT_LISTEN6PORT=1)
+endif()
 
 # Main target
 add_executable(eqvnc eqvnc.cpp)

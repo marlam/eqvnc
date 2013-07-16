@@ -794,7 +794,7 @@ int main(int argc, char* argv[])
     vnc_client->canHandleNewFBSize = TRUE;
     vnc_client->GotFrameBufferUpdate = vnc_update;
     vnc_client->listenPort = LISTEN_PORT_OFFSET;
-#if defined(LIBVNCSERVER_IPv6) && LIBVNCSERVER_IPv6
+#if HAVE_RFBCLIENT_LISTEN6PORT
     vnc_client->listen6Port = LISTEN_PORT_OFFSET;
 #endif
     if (!rfbInitClient(vnc_client, &argc, argv)) {

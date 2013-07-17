@@ -29,8 +29,9 @@ if(HAVE_RFBCLIENT_LISTEN6PORT)
 endif()
 
 # Main target
-add_executable(eqvnc eqvnc.cpp)
 include_directories(${CMAKE_SOURCE_DIR} ${LIBVNCCLIENT_INCLUDE_DIRS} ${EQUALIZER_INCLUDE_DIRS})
+link_directories(${LIBVNCCLIENT_LIBRARY_DIRS} ${EQUALIZER_LIBRARY_DIRS})
+add_executable(eqvnc eqvnc.cpp)
 target_link_libraries(eqvnc ${OPENGL_gl_LIBRARY} ${LIBVNCCLIENT_LIBRARIES} ${EQUALIZER_LIBRARIES})
 install(TARGETS eqvnc RUNTIME DESTINATION bin)
 

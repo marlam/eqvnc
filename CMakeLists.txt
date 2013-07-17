@@ -17,9 +17,9 @@ endif()
 
 # Find libraries
 find_package(OpenGL REQUIRED)
+find_package(Equalizer REQUIRED)
 find_package(PkgConfig)
 pkg_check_modules(LIBVNCCLIENT REQUIRED libvncclient)
-pkg_check_modules(EQUALIZER REQUIRED Equalizer)
 
 # Check IPv6 support in libvncclient
 include(CheckStructHasMember)

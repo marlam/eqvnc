@@ -17,9 +17,9 @@ endif()
 
 # Find libraries
 find_package(OpenGL REQUIRED)
+find_package(Equalizer REQUIRED)
 find_package(PkgConfig)
 pkg_check_modules(LIBVNCCLIENT REQUIRED libvncclient)
-pkg_check_modules(EQUALIZER REQUIRED Equalizer)
 
 # Check IPv6 support in libvncclient
 include(CheckStructHasMember)
@@ -30,7 +30,7 @@ endif()
 
 # Main target
 include_directories(${CMAKE_SOURCE_DIR} ${LIBVNCCLIENT_INCLUDE_DIRS} ${EQUALIZER_INCLUDE_DIRS})
-link_directories(${LIBVNCCLIENT_LIBRARY_DIRS} ${EQUALIZER_LIBRARY_DIRS})
+link_directories(${LIBVNCCLIENT_LIBRARY_DIRS})
 add_executable(eqvnc eqvnc.cpp)
 target_link_libraries(eqvnc ${OPENGL_gl_LIBRARY} ${LIBVNCCLIENT_LIBRARIES} ${EQUALIZER_LIBRARIES})
 install(TARGETS eqvnc RUNTIME DESTINATION bin)

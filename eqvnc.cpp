@@ -74,7 +74,7 @@ static float length(const float v[3])
 class eq_init_data : public co::Object
 {
 public:
-    eq::uint128_t frame_data_id;
+    eq::UUID frame_data_id;
     bool view_only;
     screen_t screen;
     float wall[9];      // bottom left, bottom right, top left
@@ -424,7 +424,7 @@ protected:
             return false;
         }
         eq_config* config = static_cast<eq_config*>(getConfig());
-        if (!config->mapObject(&init_data, init_id)) {
+        if (!config->mapObject(&init_data, co::UUID(init_id))) {
             return false;
         }
         return true;
